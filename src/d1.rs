@@ -5,7 +5,7 @@ pub fn solve(input: String) -> i32 {
             s.split("\n").fold(0, |acc, x| {
                 match x {
                     "" => acc,
-                    _ => acc + x.parse::<i32>().expect("invalid calorie number: ")
+                    _ => acc + x.parse::<i32>().expect("invalid calorie number")
                 }
             })
         }) // sum calories for each elf
