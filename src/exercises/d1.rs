@@ -50,10 +50,10 @@ mod tests {
     #[test]
     fn part1() {
         assert!(!TEST_INPUT.contains(" "));
-        assert_eq!(solve(TEST_INPUT.to_string(), 1), 24000);
+        assert_eq!(solve(Part::One, TEST_INPUT), 24000);
     }
     #[test]
     fn part2() {
-        assert_eq!(solve(TEST_INPUT.to_string(), 2), 45000);
+        assert_eq!(solve(Part::Two, TEST_INPUT), 45000);
     }
 }
