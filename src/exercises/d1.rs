@@ -1,5 +1,8 @@
-pub fn solve(input: String, part: i32) -> i32 {
-    let calories_per_elf = input
+use super::Part;
+
+pub fn solve(part: Part, input: impl Into<String>) -> i32 {
+    let s = input.into();
+    let calories_per_elf = s
     .split("\n\n") // split into per-elf chunks
     .map(|s| {
         s.split("\n").fold(0, |acc, x| {
@@ -11,14 +14,13 @@ pub fn solve(input: String, part: i32) -> i32 {
     }); // sum calories for each elf
 
     match part {
-        1 => calories_per_elf.max().expect("Got no maximum value, invalid input?"),
-        2 => {
+        Part::One => calories_per_elf.max().expect("Got no maximum value, invalid input?"),
+        Part::Two => {
             let mut list: Vec<i32> = calories_per_elf.collect::<Vec<i32>>(); // collect entries
             list.sort_by(|a, b| b.cmp(a)); // get entries in reverse order
             list.truncate(3); // truncate to top 3
             list.iter().sum()
         },
-        _ => panic!("Invalid Part")
     }
 
 }
@@ -28,7 +30,7 @@ mod tests {
     use super::*;
     use indoc::indoc;
 
-    const s: String = indoc! {"
+    const TEST_INPUT: &str = indoc! {"
         1000
         2000
         3000
@@ -47,11 +49,11 @@ mod tests {
 
     #[test]
     fn part1() {
-        assert!(!s.contains(" "));
-        assert_eq!(solve(s.to_string(), 1), 24000);
+        assert!(!TEST_INPUT.contains(" "));
+        assert_eq!(solve(TEST_INPUT.to_string(), 1), 24000);
     }
+    #[test]
     fn part2() {
-        assert!(!s.contains(" "));
-        assert_eq!(solve(s.to_string(), 2), 45000);
+        assert_eq!(solve(TEST_INPUT.to_string(), 2), 45000);
     }
 }
