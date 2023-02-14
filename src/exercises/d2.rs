@@ -10,12 +10,12 @@ use Shape::{Rock, Paper, Scissors};
 
 fn score(opp: Shape, us: Shape) -> i32 {
     match (us, opp) { // reverse us/opponent for readability
-        (Rock, Scissors)      => 0 + 1,
+        (Rock, Scissors)      => 6 + 1,
         (Rock, Rock)          => 3 + 1,
-        (Rock, Paper)         => 6 + 1,
-        (Paper, Rock)         => 0 + 2,
+        (Rock, Paper)         => 0 + 1,
+        (Paper, Rock)         => 6 + 2,
         (Paper, Paper)        => 3 + 2,
-        (Paper, Scissors)     => 6 + 2,
+        (Paper, Scissors)     => 0 + 2,
         (Scissors, Paper)     => 6 + 3,
         (Scissors, Scissors)  => 3 + 3,
         (Scissors, Rock)      => 0 + 3,
