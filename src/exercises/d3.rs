@@ -1,9 +1,9 @@
 use super::Part;
 
-fn priority(item: char) -> u8 {
+fn priority(item: u8) -> u8 {
     match item {
-        'a'..='z' => 1 + item as u8 - 'a' as u8,
-        'A'..='Z' => 27 + item as u8 - 'A' as u8,
+        b'a'..=b'z' => 1 + item - b'a',
+        b'A'..=b'Z' => 27 + item - b'A',
         _ => panic!("unexpected input character {item}, expected something in a-z | A-Z"),
     }
 }
@@ -20,19 +20,12 @@ pub fn solve(part: Part, input: impl Into<String>) -> i32 {
                     continue; //skip empty line which may occur at the end
                 }
         
-                let mut rucksack: Vec<char> = l.chars().collect();
-                assert!(rucksack.len() % 2 == 0);
-                let campartment_size = rucksack.len() / 2;
+                let compartment_size = l.len();
+                let compartment2: Vec<u8> = l.bytes().skip(compartment_size).collect();
         
-                // sort whats gonna be the first compartment
-                (&mut rucksack[..campartment_size]).sort();
-        
-                let compartment1 = &rucksack[..campartment_size];
-                let compartment2 = &rucksack[campartment_size..];
-        
-                for c in compartment2.iter() {
-                    if compartment1.binary_search(c).is_ok() {
-                        sum += priority(*c) as i32;
+                for byte in l.bytes().take(compartment_size) {
+                    if compartment2.binary_search(&byte).is_ok() {
+                        sum += priority(byte) as i32;
                         break;
                     }
                 }
@@ -44,15 +37,14 @@ pub fn solve(part: Part, input: impl Into<String>) -> i32 {
                     continue; //skip empty line which may occur at the end
                 }
 
-                let r1: Vec<char> = group[0].chars().collect();
-                let mut r2: Vec<char> = group[1].chars().collect();
-                let mut r3: Vec<char> = group[2].chars().collect();
+                let mut r2: Vec<u8> = group[1].bytes().collect();
+                let mut r3: Vec<u8> = group[2].bytes().collect();
                 r2.sort();
                 r3.sort();
 
-                for c in r1.iter() {
-                    if r2.binary_search(c).is_ok() && r3.binary_search(c).is_ok() {
-                        sum += priority(*c) as i32;
+                for byte in group[0].bytes() {
+                    if r2.binary_search(&byte).is_ok() && r3.binary_search(&byte).is_ok() {
+                        sum += priority(byte) as i32;
                         break;
                     }
                 }
