@@ -4,7 +4,7 @@ fn priority(item: u8) -> u8 {
     match item {
         b'a'..=b'z' => 1 + item - b'a',
         b'A'..=b'Z' => 27 + item - b'A',
-        _ => panic!("unexpected input character {item}, expected something in a-z | A-Z"),
+        _ => panic!("unexpected input byte {item}, expected something in a-z | A-Z"),
     }
 }
 
@@ -19,10 +19,12 @@ pub fn solve(part: Part, input: impl Into<String>) -> i32 {
                 if l.is_empty() {
                     continue; //skip empty line which may occur at the end
                 }
-        
-                let compartment_size = l.len();
-                let compartment2: Vec<u8> = l.bytes().skip(compartment_size).collect();
-        
+
+                assert!(l.len() % 2 == 0);
+                let compartment_size = l.len() / 2;
+                let mut compartment2: Vec<u8> = l.bytes().skip(compartment_size).collect();
+                compartment2.sort();
+
                 for byte in l.bytes().take(compartment_size) {
                     if compartment2.binary_search(&byte).is_ok() {
                         sum += priority(byte) as i32;
@@ -30,7 +32,7 @@ pub fn solve(part: Part, input: impl Into<String>) -> i32 {
                     }
                 }
             }
-        },
+        }
         Part::Two => {
             for group in s.split('\n').collect::<Vec<&str>>().chunks(3) {
                 if group[0].is_empty() {
