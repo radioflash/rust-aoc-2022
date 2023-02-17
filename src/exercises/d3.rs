@@ -78,6 +78,7 @@ mod tests {
 
     #[test]
     fn part2() {
+        assert!("äö∈".chars().skip(2).next().unwrap() == '∈');
         assert_eq!(solve(Part::Two, TEST_INPUT), 70);
     }
 }
