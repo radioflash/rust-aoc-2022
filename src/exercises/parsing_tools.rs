@@ -55,4 +55,3 @@ where
 
 impl<I: Iterator> ParseU8 for I {}
 impl<I: Iterator> ParseLiteral for I {}
-

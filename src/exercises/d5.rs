@@ -1,7 +1,7 @@
-use anyhow::{anyhow, bail, Result, Context};
+use anyhow::{anyhow, bail, Context, Result};
 
+use super::parsing_tools::{ParseLiteral, ParseU8};
 use super::Part;
-use super::parsing_tools::{ParseLiteral,ParseU8};
 
 fn parse_list_of_stacks(s: &str) -> Result<u8> {
     let mut stack_cnt: u8 = 0;
@@ -96,29 +96,60 @@ pub fn solve(part: Part, input: &str) -> String {
     let mut it = input.split("\n\n");
 
     // find out initial crate stack setup
-    let mut stacks = parse_crates(it.next().expect("Expected initial crate setup")).expect("cratestack parsing failed");
+    let mut stacks = parse_crates(it.next().expect("Expected initial crate setup"))
+        .expect("cratestack parsing failed");
     let moves = it.next().expect("Expected crate moves").trim_end();
 
     // move crates around
     for (move_num, m_str) in moves.split('\n').enumerate() {
         let m = parse_move(m_str).expect("Got no move");
 
-        for _ in 0..m.crate_cnt {
-            let c = stacks[(m.from_stack - 1) as usize].pop().with_context(|| anyhow!("Not enough crates to take {} in move {}", m.crate_cnt, move_num)).unwrap();
-            stacks[(m.to_stack - 1) as usize].push(c);
+        match part {
+            Part::One => {
+                for _ in 0..m.crate_cnt {
+                    let c = stacks[(m.from_stack - 1) as usize]
+                        .pop()
+                        .with_context(|| {
+                            anyhow!(
+                                "Not enough crates to take {} in move {}",
+                                m.crate_cnt,
+                                move_num
+                            )
+                        })
+                        .unwrap();
+                    stacks[(m.to_stack - 1) as usize].push(c);
+                }
+            }
+            Part::Two => {
+                let mut crates = {
+                    let origin_stack = &mut stacks[(m.from_stack - 1) as usize];
+                    origin_stack.split_off(origin_stack.len() - m.crate_cnt as usize)
+                };
+                assert!(
+                    crates.len() == m.crate_cnt as usize,
+                    "Unable to move {} crates from stack {} to stack {} (move {})",
+                    m.crate_cnt,
+                    m.from_stack,
+                    m.to_stack,
+                    move_num
+                );
+
+                let target_stack = &mut stacks[(m.to_stack - 1) as usize];
+                target_stack.append(&mut crates);
+            }
         }
     }
 
     // extract top crate name for each stack
-    let mut topCrates: String = String::from("");
+    let mut top_crates: String = String::from("");
     for s in stacks {
-        topCrates.push(match s {
-           mut x if !x.is_empty() => x.pop().unwrap() as char,
-           _ => ' ',
+        top_crates.push(match s {
+            mut x if !x.is_empty() => x.pop().unwrap() as char,
+            _ => ' ',
         });
     }
 
-    topCrates
+    top_crates
 }
 
 #[cfg(test)]
@@ -167,6 +198,6 @@ mod tests {
 
     #[test]
     fn part2() {
-        assert_eq!(solve(Part::Two, &TEST_INPUT), "42");
+        assert_eq!(solve(Part::Two, &TEST_INPUT), "MCD");
     }
 }
