@@ -3,6 +3,7 @@ mod d2;
 mod d3;
 mod d4;
 mod d5;
+mod d6;
 
 mod parsing_tools;
 
@@ -19,6 +20,7 @@ pub fn solve_day(day: u8, part: Part, input: &str) -> String {
         3 => d3::solve(part, &input).to_string(),
         4 => d4::solve(part, &input).to_string(),
         5 => d5::solve(part, &input),
+        6 => d6::solve(part, &input).to_string(),
         _ => panic!("Exercise day {} NYI", day),
     }
 }
