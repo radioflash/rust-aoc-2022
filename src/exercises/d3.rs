@@ -8,14 +8,12 @@ fn priority(item: u8) -> u8 {
     }
 }
 
-pub fn solve(part: Part, input: impl Into<String>) -> i32 {
-    let s = input.into();
-
+pub fn solve(part: Part, input: &str) -> i32 {
     let mut sum: i32 = 0;
 
     match part {
         Part::One => {
-            for l in s.split('\n') {
+            for l in input.split('\n') {
                 if l.is_empty() {
                     continue; //skip empty line which may occur at the end
                 }
@@ -34,7 +32,7 @@ pub fn solve(part: Part, input: impl Into<String>) -> i32 {
             }
         }
         Part::Two => {
-            for group in s.split('\n').collect::<Vec<&str>>().chunks(3) {
+            for group in input.split('\n').collect::<Vec<&str>>().chunks(3) {
                 if group[0].is_empty() {
                     continue; //skip empty line which may occur at the end
                 }

@@ -48,7 +48,7 @@ fn main() {
         .expect("Need a session key for looking up the input as environment variable AOC_SESSION!");
 
     let input = input_fetcher::fetch(day, session_id.as_str());
-    let solution = exercises::solve_day(day, part, input);
+    let solution = exercises::solve_day(day, part, input.as_str());
 
     println!(
         "Solution for exercise day {}, part {:?}:\n{}",

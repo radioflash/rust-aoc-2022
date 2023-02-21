@@ -50,11 +50,9 @@ fn score(opponents_pick: Shape, our_pick: Shape) -> i32 {
     return shape_score(our_pick) + win_score(opponents_pick, our_pick);
 }
 
-pub fn solve(part: Part, input: impl Into<String>) -> i32 {
-    let s = input.into();
-
+pub fn solve(part: Part, input: &str) -> i32 {
     let mut sum: i32 = 0;
-    for l in s.split('\n') {
+    for l in input.split('\n') {
         if l.is_empty() {
             continue; //skip empty line which may occur at the end
         }

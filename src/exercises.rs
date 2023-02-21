@@ -9,12 +9,12 @@ pub enum Part {
     Two,
 }
 
-pub fn solve_day(day: u8, part: Part, input: String) -> i32 {
+pub fn solve_day(day: u8, part: Part, input: &str) -> String {
     match day {
-        1 => d1::solve(part, &input),
-        2 => d2::solve(part, &input),
-        3 => d3::solve(part, &input),
-        4 => d4::solve(part, &input), 
+        1 => d1::solve(part, &input).to_string(),
+        2 => d2::solve(part, &input).to_string(),
+        3 => d3::solve(part, &input).to_string(),
+        4 => d4::solve(part, &input).to_string(),
         _ => panic!("Exercise day {} NYI", day),
     }
 }

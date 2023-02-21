@@ -1,8 +1,7 @@
 use super::Part;
 
-pub fn solve(part: Part, input: impl Into<String>) -> i32 {
-    let s = input.into();
-    let calories_per_elf = s
+pub fn solve(part: Part, input: &str) -> i32 {
+    let calories_per_elf = input
         .split("\n\n") // split into per-elf chunks
         .map(|s| {
             s.split("\n").fold(0, |acc, x| match x {
