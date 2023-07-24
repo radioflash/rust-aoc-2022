@@ -16,3 +16,10 @@ flowchart
   X --> Y
   X --> Z
 :::
+
+
+~~~ mermaid
+flowchart
+  1 --> 2
+  1 --> 3
+~~~
