@@ -11,8 +11,8 @@ flowchart
   C --> A
 ```
 
-    ::: mermaid
-    flowchart
-      X --> Y
-      X --> Z
-    :::
+::: mermaid
+flowchart
+  X --> Y
+  X --> Z
+:::
