@@ -10,3 +10,9 @@ flowchart
   B --> C
   C --> A
 ```
+
+    ::: mermaid
+    flowchart
+      X --> Y
+      X --> Z
+    :::
